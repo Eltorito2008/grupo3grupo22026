@@ -1,0 +1,354 @@
+# 📋 DOCUMENTACIÓN COMPLETA - GESTOR DE TAREAS POR MATERIAS
+
+## 📑 ÍNDICE
+1. Descripción General
+2. Instalación y Uso
+3. Estructura del Proyecto
+4. Estructuras de Datos
+5. Sistema de Materias
+6. Sistema de Tareas
+7. Sistema de Búsqueda
+8. Personalización de Fondo
+9. Almacenamiento
+10. Funciones JavaScript
+11. Animaciones CSS
+12. Responsive Design
+
+---
+
+## 1. 📋 DESCRIPCIÓN GENERAL
+
+Aplicación web sin dependencias externas para gestionar tareas organizadas por materias académicas. Incluye buscador con animación, panel lateral de materias y personalización de fondo mediante un botón flotante que abre un modal.
+
+**Tecnologías:** HTML5, CSS3, JavaScript (ES6+)
+**Almacenamiento:** localStorage + sessionStorage
+**Navegadores:** Chrome, Firefox, Safari, Edge
+
+---
+
+## 2. 🚀 INSTALACIÓN Y USO
+
+1. Guarda los 3 archivos en la misma carpeta:
+   - index.html
+   - styles.css
+   - app.js
+2. Abre index.html en cualquier navegador
+3. No requiere servidor ni instalación
+
+---
+
+## 3. 📁 ESTRUCTURA DEL PROYECTO
+
+proyecto/
+├── index.html      → Estructura HTML + modal de personalización
+├── styles.css      → Estilos, animaciones, responsive
+├── app.js          → Lógica, CRUD, búsqueda, personalización
+└── README.md       → Documentación
+
+---
+
+## 4. 🗂️ ESTRUCTURAS DE DATOS
+
+### 4.1 Objeto Tarea
+{
+  id: Number,              // Timestamp único
+  texto: String,           // Contenido de la tarea
+  completada: Boolean,     // true = completada
+  materiaId: Number|null,  // ID de materia o null
+  fechaCreacion: String    // Fecha ISO
+}
+
+Ejemplo:
+{
+  id: 1719000000000,
+  texto: "Estudiar álgebra",
+  completada: false,
+  materiaId: 1003,
+  fechaCreacion: "2024-06-22T10:30:00.000Z"
+}
+
+### 4.2 Objeto Materia
+{
+  id: Number,          // Identificador único
+  nombre: String,      // Nombre descriptivo
+  icono: String,       // Emoji
+  colorClass: String,  // Clase CSS para color
+  color: String        // Código hexadecimal
+}
+
+### 4.3 Materias Predefinidas
+| ID   | Nombre             | Icono | Color     |
+|------|--------------------|-------|-----------|
+| 1001 | Ciencias Básicas   | 🔬    | #e8d5b7   |
+| 1002 | Ciencias Sociales  | 🌍    | #c9b8a8   |
+| 1003 | Matemáticas        | 📐    | #d4c3b3   |
+| 1004 | Ciencias Naturales | 🧬    | #bfd8bd   |
+| 1005 | Lenguaje           | 📖    | #d8c8b8   |
+
+### 4.4 Objeto Configuración de Fondo
+{
+  tipo: String,          // "color" | "degradado" | "imagen"
+  valor: String,         // Color hex o "color1,color2"
+  direccion: String,     // Dirección CSS del degradado
+  imagenData: String|null // Imagen en base64
+}
+
+---
+
+## 5. 📚 SISTEMA DE MATERIAS
+
+### 5.1 Panel Lateral (Sidebar)
+- Ancho: 280px
+- Sticky (siempre visible en desktop)
+- Contiene lista de materias + formulario para agregar
+
+### 5.2 Funcionalidades
+- SELECCIONAR: Click en materia → filtra tareas
+- AGREGAR: Input + botón en parte inferior
+- ELIMINAR: Botón X (visible al hover)
+- CONTADOR: Número de tareas por materia
+
+### 5.3 Comportamiento al Eliminar Materia
+- Se muestra confirmación
+- Las tareas asociadas NO se eliminan
+- Las tareas quedan con materiaId = null
+
+---
+
+## 6. ✅ SISTEMA DE TAREAS
+
+### 6.1 CRUD de Tareas
+
+CREAR:
+- Input de texto + botón "Agregar"
+- Validación: no vacío, mínimo 3 caracteres
+- No permite duplicados (case insensitive)
+- Se asigna a la materia seleccionada
+
+LEER:
+- Lista scrollable (max-height: 400px)
+- Muestra texto, checkbox, tag de materia, botón eliminar
+
+ACTUALIZAR:
+- Checkbox → cambia estado completada
+- Efecto visual: tachado y opacidad reducida
+
+ELIMINAR:
+- Animación de salida (0.4s)
+- Se remueve del array y localStorage
+
+### 6.2 Validaciones
+- ❌ Vacío: "La tarea no puede estar vacía"
+- ❌ Muy corto: "La tarea debe tener al menos 3 caracteres"
+- ❌ Duplicado: "Ya existe una tarea con ese nombre en esta materia"
+
+---
+
+## 7. 🔍 SISTEMA DE BÚSQUEDA
+
+### 7.1 Componentes del Buscador
+- Input central redondeado (max-width: 500px)
+- Icono de lupa (SVG)
+- Spinner circular animado
+- Mensaje "Buscando tareas..."
+- Panel de resultados
+
+### 7.2 Funcionamiento
+1. Usuario escribe → se activa spinner
+2. Efecto pulso en borde del input
+3. Debounce de 500ms
+4. Búsqueda case insensitive
+5. Resultados en panel + lista filtrada
+6. Click en resultado → scroll a la tarea
+
+### 7.3 Animaciones del Buscador
+- SPINNER: Giro circular infinito (0.8s)
+- PULSO: Brillo intermitente en borde (1.5s)
+- ICONO: Se oculta durante búsqueda
+
+---
+
+## 8. 🎨 PERSONALIZACIÓN DE FONDO
+
+### 8.1 Acceso
+Botón flotante (🎨) en esquina inferior derecha
+- Animación: flotación vertical (3s)
+- Hover: rotación 180° del icono
+
+### 8.2 Modal de Personalización
+Dimensiones: 90% ancho, max 600px, max-height 80vh
+
+### 8.3 Pestañas
+
+**COLORES (12 predefinidos):**
+Beige, Blanco, Azul, Lavanda, Verde, Naranja, Rosa, Púrpura, Menta, Amarillo, Melocotón, Gris
++ Selector de color personalizado con código hex
+
+**DEGRADADOS (6 predefinidos):**
+Beige Clásico, Azul Suave, Lavanda Dream, Verde Natural, Atardecer, Rosa Pastel
++ Personalizado: 2 colores + 5 direcciones
+
+**IMAGEN:**
+- Subida por click o arrastre
+- Formatos: JPG, PNG, GIF
+- Límite: 5MB
+- Vista previa antes de aplicar
+- Botón para quitar imagen
+
+### 8.4 Botones del Modal
+- RESTAURAR: Vuelve al beige original (#f5f0e8)
+- APLICAR: Guarda y cierra el modal
+
+---
+
+## 9. 💾 SISTEMA DE ALMACENAMIENTO
+
+### 9.1 localStorage (Persistente)
+
+| Clave                 | Tipo   | Contenido                  |
+|-----------------------|--------|----------------------------|
+| tareas_app            | JSON   | Array de objetos tarea     |
+| materias_app          | JSON   | Array de objetos materia   |
+| fondo_personalizado   | JSON   | Configuración de fondo     |
+
+### 9.2 sessionStorage (Sesión)
+
+| Clave          | Tipo   | Contenido         |
+|----------------|--------|-------------------|
+| fondo_imagen   | string | Imagen en base64  |
+
+### 9.3 Notas
+- Capacidad: ~5-10MB por dominio
+- Imágenes en sessionStorage (se pierden al cerrar)
+- Datos persistentes al recargar página
+
+---
+
+## 10. 🎯 FUNCIONES JAVASCRIPT
+
+### 10.1 Gestión de Tareas
+agregarTarea(texto)        → Crea y valida nueva tarea
+toggleTarea(id)            → Cambia estado completada
+eliminarTarea(id, li)      → Elimina con animación
+validarTarea(texto)        → Retorna {valido, mensaje}
+tareaDuplicada(texto)      → Verifica duplicados
+obtenerTareasFiltradas()   → Según materia activa
+
+### 10.2 Gestión de Materias
+seleccionarMateria(id)     → Filtra tareas
+agregarMateria(nombre)     → Crea materia
+eliminarMateria(id)        → Elimina materia
+renderizarMaterias()       → Actualiza sidebar
+
+### 10.3 Búsqueda
+buscarTareas(termino)      → Filtra por texto
+ejecutarBusqueda(termino)  → Actualiza UI
+mostrarSpinner()           → Activa carga
+ocultarSpinner()           → Desactiva carga
+
+### 10.4 Personalización
+aplicarFondo()             → Aplica estilo al body
+guardarFondo()             → Persiste configuración
+cargarFondo()              → Recupera configuración
+abrirModal()               → Muestra modal
+cerrarModal()              → Oculta modal
+sincronizarUI()            → Actualiza controles del modal
+
+### 10.5 Utilidades
+escaparHTML(texto)         → Previene XSS
+mostrarError(mensaje)      → Error temporal
+actualizarContadores()     → Total y pendientes
+renderizarTareas(arr)      → Renderiza lista
+
+---
+
+## 11. 🎭 ANIMACIONES CSS
+
+@keyframes aparecer        → Entrada suave (0.4s)
+@keyframes eliminar        → Salida lateral (0.4s)
+@keyframes girar           → Spinner (0.8s infinito)
+@keyframes pulso-borde     → Buscador activo (1.5s infinito)
+@keyframes float           → Botón flotante (3s infinito)
+@keyframes fadeIn          → Overlay modal (0.3s)
+@keyframes modalIn         → Entrada modal (0.3s)
+@keyframes eliminarError   → Salida error (0.3s)
+
+---
+
+## 12. 📱 RESPONSIVE DESIGN
+
+### Breakpoint: 768px
+
+**ESCRITORIO (>768px):**
+- Sidebar visible (280px fijo)
+- Layout en fila (sidebar + contenido)
+- Botón flotante: right 30px, bottom 30px
+
+**MÓVIL (≤768px):**
+- Sidebar oculto (se muestra con botón hamburguesa)
+- Botón hamburguesa: left 20px, bottom 20px
+- Botón flotante: right 20px, bottom 80px
+- Sidebar se abre como overlay
+- Overlay oscuro al abrir sidebar
+- Formulario en columna
+- Modal: 95% ancho, 85% altura
+- Grid colores: 3 columnas
+- Grid degradados: 2 columnas
+
+### Botones Móviles
+- ☰ Hamburguesa (izquierda): Abre/cierra sidebar
+- 🎨 Paleta (derecha): Abre modal de personalización
+
+---
+
+## 🎨 PALETA DE COLORES CSS
+
+--beige-light: #f5f0e8    → Fondo principal
+--beige: #e8dcc8           → Bordes, hover
+--beige-dark: #c4b89e      → Scrollbar
+--brown: #6b5b4b           → Botones, acentos
+--brown-dark: #4a3f35      → Texto
+--green: #8db580           → Checkbox ✓
+--red: #d4867a             → Eliminar, errores
+--white: #fffef9           → Tarjetas
+
+---
+
+## 📊 FLUJO DE DATOS
+
+Usuario → Agregar Tarea → validarTarea() → ¿Válida?
+                                              ├─ Sí → tareas.unshift() → guardarTareas() → renderizarTareas()
+                                              └─ No → mostrarError()
+
+Usuario → Seleccionar Materia → materiaSeleccionada = id → renderizarTareas() → Filtrar por materiaId
+
+Usuario → Buscar → Spinner → Debounce 500ms → buscarTareas() → ejecutarBusqueda() → Actualizar UI
+
+Usuario → Personalizar → Botón flotante → Modal → Seleccionar/Aplicar → aplicarFondo() → guardarFondo()
+
+---
+
+## 🔒 SEGURIDAD
+
+- Función escaparHTML() previene inyección XSS
+- Validación de longitud mínima (3 caracteres)
+- Detección de duplicados case-insensitive
+- Límite de tamaño en imágenes (5MB)
+- Validación de tipo de archivo (solo imágenes)
+
+---
+
+## 📝 NOTAS ADICIONALES
+
+- El proyecto no usa frameworks ni librerías externas
+- Totalmente funcional sin conexión a internet
+- Los datos persisten al cerrar el navegador
+- Las imágenes de fondo se pierden al cerrar sesión
+- Compatible con lectores de pantalla básicos
+- Scroll suave en navegadores modernos
+
+---
+
+**Versión:** 1.0.0
+**Última actualización:** Junio 2024
+**Licencia:** Uso libre educativo/personal

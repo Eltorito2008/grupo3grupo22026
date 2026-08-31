@@ -1,0 +1,1408 @@
+/* ==========================================
+   ESTILOS GENERALES Y FONDO BEIGE
+   ========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --beige-light: #f5f0e8;
+    --beige: #e8dcc8;
+    --beige-dark: #c4b89e;
+    --brown: #6b5b4b;
+    --brown-dark: #4a3f35;
+    --brown-light: #8b7355;
+    --green: #8db580;
+    --green-dark: #6d9b5f;
+    --red: #d4867a;
+    --red-dark: #b86b60;
+    --white: #fffef9;
+    --shadow: 0 4px 20px rgba(107, 91, 75, 0.15);
+}
+
+body {
+    font-family: 'Segoe UI', 'Georgia', serif;
+    background-color: #f5f0e8;
+    background-image:
+        radial-gradient(ellipse at 15% 30%, rgba(200, 180, 150, 0.25) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 25%, rgba(180, 160, 130, 0.18) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 75%, rgba(210, 190, 160, 0.22) 0%, transparent 50%),
+        radial-gradient(ellipse at 25% 85%, rgba(195, 175, 145, 0.15) 0%, transparent 45%);
+    min-height: 100vh;
+    display: flex;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(180, 160, 130, 0.04) 2px,
+            rgba(180, 160, 130, 0.04) 4px),
+        repeating-linear-gradient(90deg,
+            transparent,
+            transparent 2px,
+            rgba(180, 160, 130, 0.04) 2px,
+            rgba(180, 160, 130, 0.04) 4px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+body.fondo-imagen {
+    background-image: var(--bg-imagen) !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+}
+
+body.fondo-imagen::before {
+    background: rgba(245, 240, 232, 0.3) !important;
+}
+
+/* ==========================================
+   SIDEBAR - PANEL LATERAL DE MATERIAS
+   ========================================== */
+
+.sidebar {
+    width: 280px;
+    min-width: 280px;
+    background-color: #faf7f2;
+    border-right: 2px solid var(--beige);
+    padding: 25px 20px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 10;
+    box-shadow: 2px 0 15px rgba(107, 91, 75, 0.08);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--beige);
+}
+
+.sidebar-header h2 {
+    font-size: 22px;
+    color: var(--brown-dark);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.lista-materias {
+    list-style: none;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.lista-materias::-webkit-scrollbar {
+    width: 5px;
+}
+
+.lista-materias::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.lista-materias::-webkit-scrollbar-thumb {
+    background: var(--beige-dark);
+    border-radius: 10px;
+}
+
+.materia-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.materia-item:hover {
+    background-color: #f0ebe0;
+    border-color: var(--beige);
+}
+
+.materia-item.activa {
+    background-color: #e8dcc8;
+    border-color: var(--brown);
+    font-weight: 600;
+}
+
+.materia-icono {
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.materia-nombre {
+    flex: 1;
+    font-size: 15px;
+    color: var(--brown-dark);
+    word-break: break-word;
+}
+
+.materia-contador {
+    background-color: var(--brown);
+    color: white;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    min-width: 24px;
+    text-align: center;
+}
+
+.btn-eliminar-materia {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    margin-left: 5px;
+    border-radius: 5px;
+    color: #c0a090;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.materia-item:hover .btn-eliminar-materia {
+    opacity: 1;
+}
+
+.btn-eliminar-materia:hover {
+    background-color: #fce8e5;
+    color: var(--red);
+}
+
+.btn-eliminar-materia svg {
+    width: 14px;
+    height: 14px;
+}
+
+.agregar-materia {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid var(--beige);
+}
+
+.input-materia {
+    flex: 1;
+    padding: 10px 14px;
+    border: 2px solid var(--beige);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Segoe UI', 'Georgia', serif;
+    background-color: var(--white);
+    color: var(--brown-dark);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-materia:focus {
+    border-color: var(--brown);
+}
+
+.btn-agregar-materia {
+    padding: 10px 12px;
+    background-color: var(--brown);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-agregar-materia:hover {
+    background-color: var(--brown-dark);
+}
+
+.btn-agregar-materia svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Colores por tipo de materia */
+.materia-basicas { background-color: #e8d5b7; }
+.materia-sociales { background-color: #c9b8a8; }
+.materia-matematica { background-color: #d4c3b3; }
+.materia-ciencias { background-color: #bfd8bd; }
+.materia-lenguaje { background-color: #d8c8b8; }
+.materia-default { background-color: #e0d5c5; }
+
+/* ==========================================
+   CONTENIDO PRINCIPAL
+   ========================================== */
+
+.main-content {
+    flex: 1;
+    padding: 30px 20px;
+    min-width: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* ==========================================
+   HEADER DE TARJETA
+   ========================================== */
+
+.header-tarjeta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.header-tarjeta h1 {
+    font-size: 28px;
+    color: var(--brown-dark);
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.btn-volver {
+    background: none;
+    border: 2px solid var(--beige-dark);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--brown);
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', 'Georgia', serif;
+}
+
+.btn-volver:hover {
+    background-color: var(--beige);
+    border-color: var(--brown);
+}
+
+/* ==========================================
+   BUSCADOR CENTRAL
+   ========================================== */
+
+.buscador-central {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.buscador-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+}
+
+.buscador-input {
+    width: 100%;
+    padding: 16px 50px 16px 24px;
+    border: 2px solid var(--beige-dark);
+    border-radius: 50px;
+    font-size: 16px;
+    font-family: 'Segoe UI', 'Georgia', serif;
+    background-color: var(--white);
+    color: var(--brown-dark);
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    letter-spacing: 0.5px;
+}
+
+.buscador-input:focus {
+    border-color: var(--brown);
+    box-shadow: 0 6px 25px rgba(107, 91, 75, 0.2);
+}
+
+.buscador-input::placeholder {
+    color: #b8a898;
+    font-style: italic;
+}
+
+.buscador-icono {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.buscador-icono svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--brown);
+    fill: none;
+    stroke-width: 2.5;
+}
+
+.buscador-spinner {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.buscador-spinner.activo {
+    display: flex;
+}
+
+.spinner-circulo {
+    width: 26px;
+    height: 26px;
+    border: 3px solid var(--beige);
+    border-top-color: var(--brown);
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+    to { transform: rotate(360deg); }
+}
+
+.buscador-wrapper.buscando .buscador-input {
+    border-color: var(--brown);
+    background-color: #fdfaf5;
+    animation: pulso-borde 1.5s ease-in-out infinite;
+}
+
+@keyframes pulso-borde {
+    0%, 100% {
+        border-color: var(--brown);
+        box-shadow: 0 4px 20px rgba(107, 91, 75, 0.15);
+    }
+    50% {
+        border-color: var(--beige-dark);
+        box-shadow: 0 6px 28px rgba(107, 91, 75, 0.3);
+    }
+}
+
+.buscador-wrapper.buscando .buscador-icono {
+    opacity: 0;
+}
+
+.mensaje-buscando {
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--brown);
+    font-style: italic;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    height: 20px;
+}
+
+.mensaje-buscando.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================
+   TARJETA PRINCIPAL
+   ========================================== */
+
+.tarjeta {
+    background-color: var(--white);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(107, 91, 75, 0.1);
+    border: 1px solid rgba(180, 160, 130, 0.2);
+}
+
+.subtitulo {
+    text-align: center;
+    color: #a89480;
+    font-size: 14px;
+    margin-bottom: 25px;
+    font-style: italic;
+}
+
+/* ==========================================
+   FORMULARIO AÑADIR TAREA
+   ========================================== */
+
+.form-tarea {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.input-tarea {
+    flex: 1;
+    padding: 14px 18px;
+    border: 2px solid var(--beige);
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: 'Segoe UI', 'Georgia', serif;
+    background-color: #fdfaf5;
+    color: var(--brown-dark);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-tarea:focus {
+    border-color: var(--brown);
+    box-shadow: 0 0 0 3px rgba(107, 91, 75, 0.08);
+}
+
+.btn-agregar {
+    padding: 14px 24px;
+    background-color: var(--brown);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    font-family: 'Segoe UI', 'Georgia', serif;
+}
+
+.btn-agregar:hover {
+    background-color: var(--brown-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(74, 63, 53, 0.3);
+}
+
+.btn-agregar:active {
+    transform: scale(0.97);
+}
+
+/* ==========================================
+   CONTADOR DE TAREAS
+   ========================================== */
+
+.contador {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--beige);
+    font-size: 14px;
+    color: #a89480;
+}
+
+.contador span {
+    font-weight: 600;
+    color: var(--brown);
+}
+
+/* ==========================================
+   LISTA DE TAREAS
+   ========================================== */
+
+.lista-tareas {
+    list-style: none;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.lista-tareas::-webkit-scrollbar {
+    width: 6px;
+}
+
+.lista-tareas::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.lista-tareas::-webkit-scrollbar-thumb {
+    background: var(--beige-dark);
+    border-radius: 10px;
+}
+
+.tarea-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    background-color: #fdfaf5;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    animation: aparecer 0.4s ease;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tarea-item:hover {
+    background-color: #f8f3e8;
+    border-color: var(--beige);
+}
+
+.tarea-item.completada {
+    opacity: 0.7;
+    background-color: #f0ebe0;
+}
+
+.tarea-item.completada .texto-tarea {
+    text-decoration: line-through;
+    color: #b0a090;
+}
+
+.tarea-item.eliminando {
+    animation: eliminar 0.4s ease forwards;
+}
+
+@keyframes eliminar {
+    to {
+        opacity: 0;
+        transform: translateX(30px);
+        max-height: 0;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+    }
+}
+
+.checkbox-tarea {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--beige-dark);
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 14px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    position: relative;
+    background-color: white;
+}
+
+.checkbox-tarea:checked {
+    background-color: var(--green);
+    border-color: var(--green-dark);
+}
+
+.checkbox-tarea:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.texto-tarea {
+    flex: 1;
+    font-size: 15px;
+    color: var(--brown-dark);
+    word-break: break-word;
+    transition: all 0.3s ease;
+}
+
+.materia-tag {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.btn-eliminar {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: 8px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    color: #c0a090;
+}
+
+.btn-eliminar:hover {
+    background-color: #fce8e5;
+    color: var(--red);
+}
+
+.btn-eliminar svg {
+    width: 18px;
+    height: 18px;
+}
+
+.sin-tareas {
+    text-align: center;
+    padding: 40px 20px;
+    color: #c4b8a8;
+    font-style: italic;
+    font-size: 15px;
+}
+
+.sin-tareas svg {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+}
+
+/* ==========================================
+   RESULTADOS DE BÚSQUEDA
+   ========================================== */
+
+.resultados-busqueda {
+    background-color: #fdfaf5;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--beige);
+    display: none;
+    animation: aparecer 0.3s ease;
+}
+
+.resultados-busqueda.activo {
+    display: block;
+}
+
+.resultados-busqueda h3 {
+    font-size: 14px;
+    color: var(--brown);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.resultado-item {
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: var(--brown-dark);
+    font-size: 14px;
+}
+
+.resultado-item:hover {
+    background-color: var(--beige);
+}
+
+/* ==========================================
+   MENSAJES DE ERROR
+   ========================================== */
+
+.mensaje-error {
+    background-color: #fce8e5;
+    color: #d4867a;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 14px;
+    animation: aparecer 0.3s ease;
+    border: 1px solid #f5c6cb;
+}
+
+@keyframes eliminarError {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* ==========================================
+   BOTÓN FLOTANTE PERSONALIZAR FONDO
+   ========================================== */
+
+.btn-personalizar-fondo {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: var(--brown);
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    animation: float 3s ease-in-out infinite;
+}
+
+.btn-personalizar-fondo:hover {
+    background-color: var(--brown-dark);
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+}
+
+.btn-personalizar-fondo svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.5s ease;
+}
+
+.btn-personalizar-fondo:hover svg {
+    transform: rotate(180deg);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* ==========================================
+   MODAL DE PERSONALIZACIÓN
+   ========================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 200;
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-overlay.activo {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-fondo {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background-color: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    z-index: 201;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    animation: modalIn 0.3s ease forwards;
+}
+
+.modal-fondo.activo {
+    display: flex;
+}
+
+@keyframes modalIn {
+    to {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 2px solid var(--beige);
+    background-color: #fdfaf5;
+}
+
+.modal-header h2 {
+    font-size: 22px;
+    color: var(--brown-dark);
+    margin: 0;
+}
+
+.btn-cerrar-modal {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    color: var(--brown);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-cerrar-modal:hover {
+    background-color: #fce8e5;
+    color: var(--red);
+}
+
+.btn-cerrar-modal svg {
+    width: 20px;
+    height: 20px;
+}
+
+.modal-body {
+    padding: 25px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--beige-dark);
+    border-radius: 10px;
+}
+
+/* Tabs */
+.tabs-fondo {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 25px;
+    background-color: #fdfaf5;
+    padding: 5px;
+    border-radius: 12px;
+}
+
+.tab-fondo {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    background: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--brown);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'Segoe UI', 'Georgia', serif;
+}
+
+.tab-fondo svg {
+    width: 16px;
+    height: 16px;
+}
+
+.tab-fondo:hover {
+    background-color: #f0ebe0;
+}
+
+.tab-fondo.activo {
+    background-color: var(--brown);
+    color: white;
+}
+
+.tab-panel {
+    display: none;
+    animation: aparecer 0.3s ease;
+}
+
+.tab-panel.activo {
+    display: block;
+}
+
+.tab-panel h3 {
+    font-size: 16px;
+    color: var(--brown-dark);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Grid de colores */
+.colores-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.color-option {
+    aspect-ratio: 1;
+    border: 3px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 8px;
+}
+
+.color-option:hover {
+    transform: scale(1.05);
+    border-color: var(--brown);
+}
+
+.color-option.seleccionado {
+    border-color: var(--brown-dark);
+    box-shadow: 0 0 0 4px rgba(107, 91, 75, 0.3);
+}
+
+.color-option.seleccionado::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: var(--brown);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.color-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(0,0,0,0.5);
+    text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+}
+
+.color-personalizado {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background-color: #fdfaf5;
+    border-radius: 12px;
+}
+
+.input-color-grande {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.color-hex {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--brown-dark);
+    font-family: monospace;
+}
+
+/* Grid de degradados */
+.degradados-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.degradado-option {
+    aspect-ratio: 4/3;
+    border: 3px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 8px;
+}
+
+.degradado-option:hover {
+    transform: scale(1.05);
+    border-color: var(--brown);
+}
+
+.degradado-option.seleccionado {
+    border-color: var(--brown-dark);
+    box-shadow: 0 0 0 4px rgba(107, 91, 75, 0.3);
+}
+
+.degradado-option.seleccionado::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: var(--brown);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.degradado-option span {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(0,0,0,0.5);
+}
+
+.degradado-personalizado {
+    padding: 15px;
+    background-color: #fdfaf5;
+    border-radius: 12px;
+}
+
+.color-inputs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.color-input-group {
+    flex: 1;
+}
+
+.color-input-group label {
+    display: block;
+    font-size: 13px;
+    color: var(--brown);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.color-input-group input[type="color"] {
+    width: 100%;
+    height: 45px;
+    border: 2px solid var(--beige);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.select-direccion {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid var(--beige);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--brown-dark);
+    background-color: white;
+    cursor: pointer;
+    margin-bottom: 15px;
+    font-family: 'Segoe UI', 'Georgia', serif;
+}
+
+.preview-degradado {
+    width: 100%;
+    height: 60px;
+    border-radius: 8px;
+    border: 2px solid var(--beige);
+}
+
+/* Upload imagen */
+.upload-imagen {
+    text-align: center;
+}
+
+.upload-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    border: 3px dashed var(--beige-dark);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #fdfaf5;
+}
+
+.upload-area:hover {
+    border-color: var(--brown);
+    background-color: #f0ebe0;
+}
+
+.upload-area svg {
+    width: 48px;
+    height: 48px;
+    color: var(--beige-dark);
+    margin-bottom: 15px;
+}
+
+.upload-area p {
+    font-size: 16px;
+    color: var(--brown);
+    margin-bottom: 8px;
+}
+
+.upload-area span {
+    font-size: 12px;
+    color: #b8a898;
+}
+
+.preview-container {
+    position: relative;
+    margin-top: 15px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.preview-container img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.btn-quitar-imagen {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--red);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-quitar-imagen:hover {
+    background-color: var(--red-dark);
+}
+
+/* Acciones del modal */
+.modal-acciones {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 2px solid var(--beige);
+}
+
+.btn-restaurar-fondo,
+.btn-aplicar-fondo {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', 'Georgia', serif;
+}
+
+.btn-restaurar-fondo {
+    background-color: #f0ebe0;
+    color: var(--brown-dark);
+    border: 2px solid var(--beige-dark);
+}
+
+.btn-restaurar-fondo:hover {
+    background-color: #e0d5c5;
+}
+
+.btn-aplicar-fondo {
+    background-color: var(--brown);
+    color: white;
+    flex: 2;
+}
+
+.btn-aplicar-fondo:hover {
+    background-color: var(--brown-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 63, 53, 0.3);
+}
+
+/* ==========================================
+   BOTÓN TOGGLE SIDEBAR (MÓVIL)
+   ========================================== */
+
+.btn-toggle-sidebar {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 100;
+    background-color: var(--brown);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-toggle-sidebar:hover {
+    background-color: var(--brown-dark);
+    transform: scale(1.1);
+}
+
+.btn-toggle-sidebar svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        position: fixed;
+        left: -300px;
+        top: 0;
+        width: 280px;
+        height: 100vh;
+        transition: left 0.3s ease;
+        z-index: 50;
+    }
+    
+    .sidebar.abierto {
+        left: 0;
+    }
+    
+    .btn-toggle-sidebar {
+        display: flex;
+    }
+    
+    .btn-personalizar-fondo {
+        bottom: 80px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+    }
+    
+    .main-content {
+        padding: 20px 15px;
+    }
+    
+    .tarjeta {
+        padding: 20px 15px;
+    }
+    
+    .form-tarea {
+        flex-direction: column;
+    }
+    
+    .btn-agregar {
+        width: 100%;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    .buscador-input {
+        padding: 14px 45px 14px 20px;
+        font-size: 14px;
+    }
+    
+    .modal-fondo {
+        width: 95%;
+        max-height: 85vh;
+    }
+    
+    .colores-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .degradados-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .modal-acciones {
+        flex-direction: column;
+    }
+}
+
+/* Overlay para móvil */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 40;
+}
+
+.sidebar-overlay.activo {
+    display: block;
+}

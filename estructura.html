@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Tareas por Materias</title>
+    <link rel="stylesheet" href="estructura.css">
+</head>
+<body>
+    <!-- Overlay para móvil -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ==================== PANEL LATERAL DE MATERIAS ==================== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>📚 Materias</h2>
+        </div>
+        
+        <!-- Lista de materias -->
+        <ul class="lista-materias" id="listaMaterias">
+            <!-- Las materias se generan dinámicamente -->
+        </ul>
+        
+        <!-- Agregar materia -->
+        <div class="agregar-materia">
+            <input 
+                type="text" 
+                class="input-materia" 
+                id="inputMateria" 
+                placeholder="Nueva materia..."
+                autocomplete="off"
+            >
+            <button class="btn-agregar-materia" id="btnAgregarMateria" title="Agregar materia">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ==================== CONTENEDOR PRINCIPAL ==================== -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- ========== BUSCADOR CENTRAL CON ANIMACIÓN ========== -->
+            <div class="buscador-central">
+                <div class="buscador-wrapper" id="buscadorWrapper">
+                    <input 
+                        type="text" 
+                        class="buscador-input" 
+                        id="buscadorInput" 
+                        placeholder="Buscar tareas..."
+                        autocomplete="off"
+                    >
+                    <div class="buscador-icono" id="buscadorIcono">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="7"/>
+                            <line x1="18" y1="18" x2="21" y2="21"/>
+                        </svg>
+                    </div>
+                    <div class="buscador-spinner" id="buscadorSpinner">
+                        <div class="spinner-circulo"></div>
+                    </div>
+                </div>
+                <div class="mensaje-buscando" id="mensajeBuscando">Buscando tareas...</div>
+            </div>
+
+            <!-- ========== TARJETA PRINCIPAL ========== -->
+            <div class="tarjeta">
+                <div class="header-tarjeta">
+                    <h1 id="tituloMateria">📋 Todas las Tareas</h1>
+                    <button class="btn-volver" id="btnVolver" style="display: none;">
+                        ← Ver todas
+                    </button>
+                </div>
+                <p class="subtitulo" id="subtituloMateria">Selecciona una materia para filtrar</p>
+
+                <div class="form-tarea">
+                    <input 
+                        type="text" 
+                        class="input-tarea" 
+                        id="inputTarea" 
+                        placeholder="Escribe una nueva tarea..."
+                        autocomplete="off"
+                    >
+                    <button class="btn-agregar" id="btnAgregar">+ Agregar</button>
+                </div>
+
+                <div class="contador">
+                    <span id="totalTareas">0</span> tareas en total · 
+                    <span id="tareasPendientes">0</span> pendientes
+                </div>
+
+                <div class="resultados-busqueda" id="resultadosBusqueda">
+                    <h3>🔍 Resultados de búsqueda:</h3>
+                    <div id="listaResultados"></div>
+                </div>
+
+                <ul class="lista-tareas" id="listaTareas">
+                    <li class="sin-tareas">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="3"/>
+                            <line x1="8" y1="12" x2="16" y2="12"/>
+                        </svg>
+                        <p>No hay tareas aún. ¡Añade una!</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- ==================== BOTÓN FLOTANTE PARA PERSONALIZAR FONDO ==================== -->
+    <button class="btn-personalizar-fondo" id="btnPersonalizarFondo" title="Personalizar fondo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10"/>
+            <path d="M12 2a15.3 15.3 0 0 0-4 10 15.3 15.3 0 0 0 4 10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+        </svg>
+    </button>
+
+    <!-- ==================== MODAL DE PERSONALIZACIÓN DE FONDO ==================== -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-fondo" id="modalFondo">
+        <div class="modal-header">
+            <h2>🎨 Personalizar Fondo</h2>
+            <button class="btn-cerrar-modal" id="btnCerrarModal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <!-- Pestañas de tipo -->
+            <div class="tabs-fondo">
+                <button class="tab-fondo activo" data-tab="colores">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="6"/>
+                    </svg>
+                    Colores
+                </button>
+                <button class="tab-fondo" data-tab="degradados">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <line x1="12" y1="3" x2="12" y2="21"/>
+                    </svg>
+                    Degradados
+                </button>
+                <button class="tab-fondo" data-tab="imagen">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    Imagen
+                </button>
+            </div>
+
+            <!-- Contenido de las pestañas -->
+            <div class="tab-content">
+                <!-- Pestaña Colores -->
+                <div class="tab-panel activo" id="tabColores">
+                    <h3>Colores Predeterminados</h3>
+                    <div class="colores-grid">
+                        <button class="color-option seleccionado" style="background: #f5f0e8;" data-color="#f5f0e8">
+                            <span class="color-name">Beige</span>
+                        </button>
+                        <button class="color-option" style="background: #ffffff;" data-color="#ffffff">
+                            <span class="color-name">Blanco</span>
+                        </button>
+                        <button class="color-option" style="background: #e8f4f8;" data-color="#e8f4f8">
+                            <span class="color-name">Azul</span>
+                        </button>
+                        <button class="color-option" style="background: #f0e6f6;" data-color="#f0e6f6">
+                            <span class="color-name">Lavanda</span>
+                        </button>
+                        <button class="color-option" style="background: #e8f5e9;" data-color="#e8f5e9">
+                            <span class="color-name">Verde</span>
+                        </button>
+                        <button class="color-option" style="background: #fff3e0;" data-color="#fff3e0">
+                            <span class="color-name">Naranja</span>
+                        </button>
+                        <button class="color-option" style="background: #fce4ec;" data-color="#fce4ec">
+                            <span class="color-name">Rosa</span>
+                        </button>
+                        <button class="color-option" style="background: #f3e5f5;" data-color="#f3e5f5">
+                            <span class="color-name">Púrpura</span>
+                        </button>
+                        <button class="color-option" style="background: #e0f2f1;" data-color="#e0f2f1">
+                            <span class="color-name">Menta</span>
+                        </button>
+                        <button class="color-option" style="background: #fff8e1;" data-color="#fff8e1">
+                            <span class="color-name">Amarillo</span>
+                        </button>
+                        <button class="color-option" style="background: #fbe9e7;" data-color="#fbe9e7">
+                            <span class="color-name">Melocotón</span>
+                        </button>
+                        <button class="color-option" style="background: #eceff1;" data-color="#eceff1">
+                            <span class="color-name">Gris</span>
+                        </button>
+                    </div>
+                    
+                    <h3>Color Personalizado</h3>
+                    <div class="color-personalizado">
+                        <input type="color" class="input-color-grande" id="inputColorPersonalizado" value="#f5f0e8">
+                        <span class="color-hex" id="colorHexValue">#f5f0e8</span>
+                    </div>
+                </div>
+
+                <!-- Pestaña Degradados -->
+                <div class="tab-panel" id="tabDegradados">
+                    <h3>Degradados Predeterminados</h3>
+                    <div class="degradados-grid">
+                        <button class="degradado-option seleccionado" data-colors="#f5f0e8,#e8dcc8" data-direction="to right" style="background: linear-gradient(to right, #f5f0e8, #e8dcc8);">
+                            <span>Beige Clásico</span>
+                        </button>
+                        <button class="degradado-option" data-colors="#e8f4f8,#b3d9e8" data-direction="to right" style="background: linear-gradient(to right, #e8f4f8, #b3d9e8);">
+                            <span>Azul Suave</span>
+                        </button>
+                        <button class="degradado-option" data-colors="#f0e6f6,#d4b8e8" data-direction="to right" style="background: linear-gradient(to right, #f0e6f6, #d4b8e8);">
+                            <span>Lavanda Dream</span>
+                        </button>
+                        <button class="degradado-option" data-colors="#e8f5e9,#a5d6a7" data-direction="to right" style="background: linear-gradient(to right, #e8f5e9, #a5d6a7);">
+                            <span>Verde Natural</span>
+                        </button>
+                        <button class="degradado-option" data-colors="#fff3e0,#ffcc80" data-direction="to right" style="background: linear-gradient(to right, #fff3e0, #ffcc80);">
+                            <span>Atardecer</span>
+                        </button>
+                        <button class="degradado-option" data-colors="#fce4ec,#f48fb1" data-direction="to right" style="background: linear-gradient(to right, #fce4ec, #f48fb1);">
+                            <span>Rosa Pastel</span>
+                        </button>
+                    </div>
+                    
+                    <h3>Degradado Personalizado</h3>
+                    <div class="degradado-personalizado">
+                        <div class="color-inputs">
+                            <div class="color-input-group">
+                                <label>Color 1</label>
+                                <input type="color" id="degradadoColor1" value="#f5f0e8">
+                            </div>
+                            <div class="color-input-group">
+                                <label>Color 2</label>
+                                <input type="color" id="degradadoColor2" value="#e8dcc8">
+                            </div>
+                        </div>
+                        <label>Dirección:</label>
+                        <select class="select-direccion" id="direccionDegradado">
+                            <option value="to right">Horizontal ➡️</option>
+                            <option value="to bottom">Vertical ⬇️</option>
+                            <option value="to bottom right">Diagonal ↘️</option>
+                            <option value="to bottom left">Diagonal ↙️</option>
+                            <option value="45deg">45 grados</option>
+                        </select>
+                        <div class="preview-degradado" id="previewDegradado" style="background: linear-gradient(to right, #f5f0e8, #e8dcc8);"></div>
+                    </div>
+                </div>
+
+                <!-- Pestaña Imagen -->
+                <div class="tab-panel" id="tabImagen">
+                    <h3>Subir Imagen de Fondo</h3>
+                    <div class="upload-imagen">
+                        <label for="inputImagen" class="upload-area" id="uploadArea">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                <line x1="12" y1="8" x2="12" y2="16"/>
+                                <line x1="8" y1="12" x2="16" y2="12"/>
+                            </svg>
+                            <p>Haz clic para seleccionar una imagen</p>
+                            <span>Formatos: JPG, PNG, GIF (Máx 5MB)</span>
+                        </label>
+                        <input type="file" id="inputImagen" accept="image/*" hidden>
+                        <div class="preview-container" id="previewContainer" style="display: none;">
+                            <img id="previewImagen" src="" alt="Vista previa">
+                            <button class="btn-quitar-imagen" id="btnQuitarImagen">✕</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="modal-acciones">
+                <button class="btn-restaurar-fondo" id="btnRestaurarFondo">
+                    🔄 Restaurar Predeterminado
+                </button>
+                <button class="btn-aplicar-fondo" id="btnAplicarFondo">
+                    ✅ Aplicar Fondo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón toggle sidebar (móvil) -->
+    <button class="btn-toggle-sidebar" id="btnToggleSidebar" title="Mostrar materias">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+
+    <script src="funcioes.js"></script>
+</body>
+</html>
