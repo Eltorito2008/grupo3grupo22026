@@ -1,1 +1,2 @@
-# grupo3grupo22026
+GESTOR DE CONTENIDO 
+Profesor : Lorenzo 
