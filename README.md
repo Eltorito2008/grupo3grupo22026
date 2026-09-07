@@ -10,7 +10,7 @@ DOCUMENTACIÓN - GESTOR DE TAREAS POR MATERIAS
 8. Funciones JavaScript
 9. Flujo de datos
 
- 1. DESCRIPCIÓN GENERAL
+1 DESCRIPCIÓN GENERAL
 
 Aplicación web sin dependencias externas para gestionar tareas organizadas por materias académicas. Incluye buscador con animación, panel lateral de materias y personalización de fondo mediante un botón flotante que abre un modal.
 
